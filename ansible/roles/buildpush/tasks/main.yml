@@ -29,7 +29,9 @@
   - name: download source code
     ansible.builtin.git:
       repo: "{{repo_url}}"
-      dest: /tmp/docker-image/
+      dest: "{{local_git_path}}"
+      update: true
+      clone: true
 
   # - name: Dockerfile transfer 
   #   copy:
@@ -55,7 +57,7 @@
     community.docker.docker_image:
       name: "{{repo_data['repository']['repositoryUri']}}"
       build:
-        path: /tmp/docker-image/
+        path: "{{local_git_path}}"
       source: build
       push: true
 
