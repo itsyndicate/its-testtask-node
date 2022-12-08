@@ -132,6 +132,6 @@ resource "null_resource" "ansible_play" {
 
     provisioner "local-exec" {
 #       working_dir = ""
-       command = "ansible-playbook --inventory ${aws_spot_instance_request.task-instance.public_ip}, --private-key /Users/mac/.ssh/id_rsa buildpush.yml -vv" 
+       command = "ansible-playbook --inventory ${aws_spot_instance_request.task-instance.public_ip}, --private-key /Users/mac/.ssh/id_rsa buildpush.yml" 
     }
 }
