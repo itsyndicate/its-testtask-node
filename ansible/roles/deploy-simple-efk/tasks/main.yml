@@ -1,0 +1,4 @@
+- name: deploy task-simple-efk
+  shell: |
+    aws eks update-kubeconfig --name task-eks
+    kubectl apply -f roles/deploy-simple-efk/files/

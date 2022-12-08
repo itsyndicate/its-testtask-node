@@ -1,0 +1,66 @@
+  - wait_for:
+       port: 22
+       delay: 10
+       timeout: 100
+       host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    become: false
+    vars: 
+      ansible_connection: local
+  - name: install docker and git packs
+    vars:
+      ansible_python_interpreter: /usr/bin/python
+    ansible.builtin.package: 
+      name:
+       - docker
+       - git
+       - python3
+  - name: install docker python and boto3
+    ansible.builtin.pip:
+      name: 
+       - docker
+       - boto3
+
+  - name: docker service is started 
+    ansible.builtin.service:
+      name: docker
+      enabled: yes
+      state: started
+
+  - name: download source code
+    ansible.builtin.git:
+      repo: "{{repo_url}}"
+      dest: "{{local_git_path}}"
+      update: true
+      clone: true
+
+  # - name: Dockerfile transfer 
+  #   copy:
+  #     src: /Users/mac/task-its/Dockerfile
+  #     dest: /tmp/docker-image/
+
+  - name: credentials transfer 
+    ansible.builtin.copy:
+      src: ~/.aws/credentials
+      dest: ~/.aws/
+
+  - name: repository created
+    community.aws.ecs_ecr:
+      name: "{{image_name}}"
+      region: "{{repo_region}}"
+    register: repo_data
+
+  - name: login to created ecr
+    shell: "aws ecr get-login-password --region us-east-1 | docker login \
+    --username AWS --password-stdin {{repo_data['repository']['repositoryUri']}}"
+
+  - name: Build and push image 
+    community.docker.docker_image:
+      name: "{{repo_data['repository']['repositoryUri']}}"
+      build:
+        path: "{{local_git_path}}"
+      source: build
+      push: true
+
+
+        
+

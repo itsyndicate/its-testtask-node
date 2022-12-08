@@ -1,0 +1,4 @@
+repo_url: 'https://github.com/itsyndicate/its-testtask-node'
+image_name: 'task-app'
+repo_region: 'us-east-1'
+local_git_path: '/tmp/docker-image'
