@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: its-nodejs-deploy
+  labels:
+    app: its-nodejs
+
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: its-nodejs
+  template:
+    metadata:
+      labels:
+        app: its-nodejs
+    spec:
+      containers:
+      - name: its-nodejs
+        image: 075589242607.dkr.ecr.{region}.amazonaws.com/its-node
+        ports:
+        - containerPort: 3000

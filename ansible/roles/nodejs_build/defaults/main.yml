@@ -1,0 +1,6 @@
+repo_path: ..
+repo_branch: master
+region: us-east-1
+
+image_name: its-node
+image_version: latest
