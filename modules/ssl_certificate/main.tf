@@ -9,11 +9,6 @@ resource "aws_acm_certificate" "acm_certificate" {
   }
 }
 
-# get details about a route 53 hosted zone
-#data "aws_route53_zone" "route53_zone" {
-#  name         = "its-testtask-node_fun.name"
-#  private_zone = false
-#}
 
 # create a record set in route 53 for domain validatation
 resource "aws_route53_record" "route53_record_for_ssl" {

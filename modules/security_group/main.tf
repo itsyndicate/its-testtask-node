@@ -1,8 +1,6 @@
 resource "aws_security_group" "demo-cluster" {
-  #name        = "terraform-eks-demo-cluster"
   name        = var.security_group
   description = "Cluster communication with worker nodes"
-  ###vpc_id      = aws_vpc.demo.id
   vpc_id      = var.vpc_id 
   
   egress {

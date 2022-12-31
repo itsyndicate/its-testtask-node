@@ -41,9 +41,7 @@ resource "aws_eks_cluster" "demo" {
   version = "1.20"
 
   vpc_config {
-    #security_group_ids = [aws_security_group.demo-cluster.id]
     security_group_ids = [var.security_group_ids]
-    #subnet_ids         = aws_subnet.demo[*].id
      subnet_ids        = var.subnet_ids
   }
 
