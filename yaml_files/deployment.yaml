@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-for-container
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: application
+          image: public.ecr.aws/i5f2e6w7/node-js-application:latest
+          ports:
+            - containerPort: 3000
+          envFrom: 
+            - configMapRef:
+                    name: configmap
+          volumeMounts:
+        - name: persistent-storage
+          mountPath: /uploads
+      volumes:
+    - name: persistent-storage
+      persistentVolumeClaim:
+        claimName: efs-claim
